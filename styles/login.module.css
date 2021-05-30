@@ -1,0 +1,58 @@
+.login {
+    
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 10fr 1fr;
+    grid-template-rows: 1fr 10fr 1fr;
+    background: #f2f6ff;
+    height: 100vh;
+    
+}
+.leftContent {
+    display: none;
+}
+.rightContent {
+    grid-row: 2/3;
+    grid-column: 2/3;
+    max-height: 100%;
+    max-height: 500px;
+    display: grid;
+    grid-template-columns: 1fr 10fr 1fr;
+    grid-template-rows: 1fr 4fr;
+    max-width: 500px;
+    justify-self: center;
+    
+}
+.rightContent h2 {
+    grid-column: 2/3;
+    font-size: 32px;
+    /* padding: 15px; */
+    box-sizing: border-box;
+    height: 30%;
+    align-self: center;
+    max-width: 100%;
+    max-height: 100%;
+}
+.rightContent form {
+    grid-column: 2/3;
+    display: flex;
+    align-content: space-between;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.rightContent form input {
+    padding: 15px;
+    border-width: 1px;
+    border-radius: 5px;
+    /* box-sizing: border-box; */
+    background: #f2f6ff;
+    max-width: 300px;
+}
+.rightContent form .button {
+    
+    max-height: 50px;
+
+    border-radius: 25px;
+    max-width: 75%;
+    background: rgba(0, 0, 0, 0) linear-gradient(91.4deg, rgb(47, 184, 255) 0%, rgb(158, 236, 217) 100%) repeat scroll 0% 0%;
+}

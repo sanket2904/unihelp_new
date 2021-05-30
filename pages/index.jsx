@@ -1,0 +1,153 @@
+import React, { useEffect } from "react"
+import style from  "../styles/style.module.css"
+import dynamic from "next/dynamic"
+import Image from "next/image"
+const FounderPage = dynamic(() => import("../components/founderPage"))
+const Top = dynamic(() => import("../components/top"))
+export default function Home() {
+    useEffect(() => {
+        document.title = "Unihelp"
+    })
+    let arr = [
+   
+        {
+           title : "Explore Bundles",
+           key:1,
+           mystyle : {
+               background: "linear-gradient(207.03deg, #4BBEFF 0%, #2370DC 100%)"
+           },
+           element: '/api/images/bundles'
+           
+          
+       },
+        {
+           title : "Explore Marketplace",
+           key:2,
+           mystyle: {
+               background:"linear-gradient(206.21deg, #4B5AFF 0%, #216BDA 0.01%, #FF7373 0.02%, #5524B3 95.4%)"
+           },
+           element:'/api/images/market'
+           
+       }
+   
+   
+   ]
+    const data = [
+        {
+            title:'Essential Pack',
+            key:1,
+            description:"desc"
+        },{
+            title:'Comforter Pack',
+            key:2,
+            description:"desc"
+        },{
+            title:'Cleaning Pack',
+            key:3,
+            description:"desc"
+        },{
+            title:'Stationary Pack',
+            key:4,
+            description:"desc"
+        },{
+            title:'Bedding and Linen Pack',
+            key:5,
+            description:"desc"
+        }
+
+    ]
+    const founderData = [
+        {
+            name: 'Raj Garg',
+            Role: 'Co-Founder',
+            
+            imgLink: '/api/images/raj',
+            twitterLink:"https://twitter.com/rjgarg98",
+            linkedinLink:"https://www.linkedin.com/in/raj-garg-74a07b1b5"
+        },
+        {
+            name:"Devansh Bansal",
+            Role: 'Co-Founder',
+           
+            imgLink:'/api/images/devash',
+            twitterLink:"https://twitter.com/devansh225?s=09",
+            linkedinLink:"https://www.linkedin.com/in/devanshsbansal"
+        }
+
+    ]
+    
+    return(
+        <>
+        <Top />
+        
+        <div className={style.contentFirst}>
+            
+            
+                <h1 className={style.title}>We help you  Settle</h1> 
+                
+                <p className={style.p}>We are here to Settle you right  in and turn your new house  across seas into your home. </p>
+                    {/* <Link href="/contact"> */}
+                    <button className={style.button}>Explore Products</button>
+                    {/* </Link> */}
+                
+            
+                <img src="/api/images/ill" className={style.mainill} layout="fill" />
+            
+            
+            
+            
+            
+        </div>
+       
+        <div className={style.sec2}>
+            <h1>Hi,We are UNIHELP</h1>
+            <p>We cover all the bases that will spell out the Uni life that you have always wanted.
+                Say goodbye to the hassles of packing the essentials, from bedding to stationery to food, everything you need to kickstart a new phase of your life away from home, we got it all under one roof!</p>
+                <div className={style.card}>
+                {arr.map( (element) => {
+                    return (
+                        <div className={style.card1} key={element.key} style={{background:'#fff'}   }  >
+                        
+                            <div className={style.miniCard} style={element.mystyle} >
+                                <div className={style.content}>
+                                    {/* {element.element} */}
+                                    <img src={element.element} alt="" />
+                                    <h3>{element.title}</h3>
+                                </div>
+                                
+                            </div>
+                            <div className={style.cardList}>
+                                <h2 style={{padding:'15px 0 '}}>Title</h2>
+                                    <a href="#" className={style.cardLink}>
+                                        <div className={style.innerContent}>
+                                            {data.map((val) => {
+                                                return(
+                                                    <>
+                                                    <div className={style.listSectionLeft}  >
+                                                        <p>{val.key}</p>
+                                                    </div>
+                                                    <div className={style.listSectionRight}  >
+                                                        <p className={style.sectionTitle}>{val.title}</p>
+                                                        <p className={style.sectionDescription}>{val.description}</p>
+                                                    </div>
+                                                    </>
+                                                )
+                                            })}
+                                            
+                                        </div>
+                                    </a>
+                            </div>
+                        </div>
+                    )
+                }) }
+                </div>
+                
+        
+        </div>
+       
+        <FounderPage data={founderData} />
+        </>
+        
+    )
+}
+
