@@ -1,15 +1,24 @@
-import React from "react"
+import React, { useEffect } from "react"
 import dynamic from "next/dynamic"
 import style from "../../styles/login.module.css"
 import {useState} from "react"
 import axios from "axios"
 
+
 const Loader = dynamic(() => import("../../components/loader"))
 const Top = dynamic(() => import("../../components/top"))
+const Dashboard = dynamic(() => import("../../components/dashboard"))
 export default function DashHome () {
-    const [up,setUp] = useState(true)
-    const [signin,setSingin] = useState(true)
-    const [loader,setLoader] = useState(false)
+    const [err,setErr] = useState(false)
+   
+    const [main,setMain] = useState({
+        user:false,
+        up:false,
+        signin:true,
+        signup:false,
+        loader:false
+    })
+    
     const [state,setState] = useState({
         firstName:"",
         lastName: "",
@@ -21,6 +30,28 @@ export default function DashHome () {
         email:"",
         password:""
     })
+    const initialCheck = () => {
+        if(window.localStorage.user) {
+            setMain({
+                ...main,
+                user:true,
+                loader:false
+            })
+        }
+        else {
+            setMain({
+                ...main,
+                loader:false,
+                up:true
+            })
+        }
+    }
+    
+    useEffect(() => {
+        initialCheck()
+        
+        
+    },[])
     function handleSignIn(event) {
         event.preventDefault()
         setSignState({
@@ -29,14 +60,26 @@ export default function DashHome () {
         })
     }
     function Check() {
-        setLoader(true)
+        setMain({
+            user:false,
+            up:false,
+            signin:false,
+            signup:false,
+            loader:true
+        })
         axios.post("/api/email",{email : email}).then(res => {
             if(res.data.validation === 'signup') {
                 
                 setTimeout(() => {
-                    setLoader(false)
-                    setUp(false)
-                    setSingin(false)
+                    setMain({
+                        ...main,
+                        up:false,
+                        signin:false,
+                        signup:true,
+                        loader:false,
+                        
+                    })
+                    
                 },300)
                     
                 
@@ -44,9 +87,15 @@ export default function DashHome () {
             else if(res.data.validation === 'signin') {
                
                     setTimeout(() => {
-                        setLoader(false)
-                        setUp(false)
-                        setSingin(true)
+                        setMain({
+                            ...main,
+                            up:false,
+                            signin:true,
+                            signup:false,
+                            loader:false,
+                            
+                        })
+                        
                     },300)
                
             }
@@ -72,14 +121,47 @@ export default function DashHome () {
     }
 
     function SignIn() {
-        // setLoader(true)
+        setMain({
+            user:false,
+            up:false,
+            signin:false,
+            signup:false,
+            loader:true
+        })
         axios.post("/api/signin",signState).then(res => {
-            console.log(res)
+            
+            if(res.data.verification) {
+                let user = {
+                    _id:res.data._id
+                    
+                }   
+                window.localStorage.setItem("user",JSON.stringify(user))
+                
+                // setTimeout(() => {
+                    
+                   setMain({
+                    user:true,
+                    up:false,
+                    signin:false,
+                    signup:false,
+                    loader:false
+                   })
+
+                // },300)
+            }
+            else {
+                setErr(!err)
+                setMain({
+                    ...main,
+                    loader:false
+                })
+            }
             
         })
     }
-    if (loader) return <Loader />
-    else if(up) return (
+    if (main.user) return <Dashboard />
+    else if (main.loader) return <Loader />
+    else if(main.up) return (
         <>
         <Top />
         <div className={style.login}>
@@ -94,7 +176,7 @@ export default function DashHome () {
                     <input type="email" name="email" id="" placeholder="Email*" value={email} onChange={(event) => setEmail(event.target.value) } />
                    
                     
-                    <input type="button" value="submit" className={style.button}  onClick={Check} onSubmit={Check} onEnter />
+                    <input type="button" value="submit" className={style.button}  onClick={Check} onSubmit={Check}  />
                 </form>
             </div>
         </div>
@@ -102,7 +184,7 @@ export default function DashHome () {
     )
         
     
-    else if (signin) return (
+    else if (main.signin) return (
         <>
         <Top />
         <div className={style.login}>
@@ -118,12 +200,15 @@ export default function DashHome () {
                     <input type="password" name="password" id="" placeholder="Password*" value={signState.password} onChange={handleSignIn} />
                     
                     <input type="button" value="submit" className={style.button}  onClick={SignIn} onSubmit={SignIn} />
+                    {
+                        err && <label htmlFor="test">Wrong password try again</label>
+                    }
                 </form>
             </div>
         </div>
         </> 
     )
-    else if(!signin) return(
+    else if(main.signup) return(
         <>
         <Top />
         <div className={style.login}>

@@ -28,6 +28,7 @@ function Hulkenberg(options) {
     this.runStart = function() {
         app.prepare().then(() => {
             server.all("*",(req,res) => {
+                
                 return handle(req,res)
             })
             server.listen(options.port,() => {
@@ -38,12 +39,16 @@ function Hulkenberg(options) {
     }
 }
 
-const User = require("./schema.js")
+const User = require("./schema.js").User
 const argon2 = require("argon2")
+const Features = require("./schema.js").Features
+const ReactDOMServer = require("react-dom/server")
+
 const app = new Hulkenberg({
     message:"working",
     port:1337
 })
+
 app.runGet("/api", (req,res) => {
     setTimeout(() => {
         res.json({message:"working"})
@@ -51,6 +56,7 @@ app.runGet("/api", (req,res) => {
     
 
 })
+
 app.runGet("/api/images/:id",(req,res) => {
     // res.json(req.params.id)
     res.sendFile(__dirname +`/${req.params.id}.svg`)
@@ -64,11 +70,15 @@ app.runPost("/api/signin", async (req,res) => {
         fetchingData = res
     })
 
-   
+   console.log(fetchingData)
     
     try {
         if(await argon2.verify(fetchingData.password,req.body.password) ){
-            res.json({verification:true})
+            res.json({
+                verification:true,
+                email:fetchingData.email,
+                _id:fetchingData._id
+            })
         }
         else {
             res.json({verification:false})
@@ -116,5 +126,9 @@ app.runPost("/api/addUser",async (req,res) => {
     }
     
 } )
+app.runPost("/api/testDatabase",async (req,res) => {
+    
+
+})
 
 app.runStart()

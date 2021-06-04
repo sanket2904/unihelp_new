@@ -2,6 +2,7 @@ import React, { useEffect } from "react"
 import style from  "../styles/style.module.css"
 import dynamic from "next/dynamic"
 import Image from "next/image"
+
 const FounderPage = dynamic(() => import("../components/founderPage"))
 const Top = dynamic(() => import("../components/top"))
 export default function Home() {
@@ -87,7 +88,7 @@ export default function Home() {
                 
                 <p className={style.p}>We are here to Settle you right  in and turn your new house  across seas into your home. </p>
                     {/* <Link href="/contact"> */}
-                    <button className={style.button}>Explore Products</button>
+                    <button className={style.button}>Get Started</button>
                     {/* </Link> */}
                 
             
@@ -146,6 +147,9 @@ export default function Home() {
         </div>
        
         <FounderPage data={founderData} />
+        <div className={style.footer}>
+
+        </div>
         </>
         
     )
