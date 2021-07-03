@@ -14,6 +14,9 @@ function Hulkenberg(options) {
     this.getExpress = function() {
         return server
     }
+    this.delete = function(path,callback) {
+        server.delete(path,callback)
+    }
     this.runGet = function(path,callback) {
         server.get(path,callback)
     }
@@ -40,6 +43,7 @@ function Hulkenberg(options) {
 }
 
 const User = require("./schema.js").User
+const Feature = require("./schema.js").Features
 const argon2 = require("argon2")
 const Features = require("./schema.js").Features
 const ReactDOMServer = require("react-dom/server")
@@ -126,8 +130,75 @@ app.runPost("/api/addUser",async (req,res) => {
     }
     
 } )
-app.runPost("/api/testDatabase",async (req,res) => {
+app.runPost("/api/addFeature", async (req,res,next) => {
+    let data = req.body
+    console.log(req.body)
+    const feature = new Features({
+        title:data.mainTitle || data.title,
+        imageLink:data.imageLink,
+        data:data.data,
+        date: new Date()
+    })
+
+    feature.save().then(response => {
+        res.json({
+            message:"entry Added"
+        })
+    }).catch((error) => res.json({
+        message:error
+    }) )
     
+})
+app.runGet("/api/addFeature", async (req,res,next) => {
+    const retrivalData = await Feature.find({})
+    res.json(retrivalData)
+}) 
+app.delete('/api/addFeature/:id', async (req,res,next) => {
+
+    const retrivalData = await Feature.findById(req.params.id)
+    console.log(retrivalData)
+    Feature.deleteOne({_id:req.params.id} , (err) => {
+        if (err) console.log(err) 
+        
+        res.json({message:"Deleted Successfully"})
+    })
+    
+})
+app.delete("/api/addFeature/:id/:child", async (req,res,next) => {
+        await Feature.findById(req.params.id, (err,result ) => {
+        result.data.id(req.params.child).remove()
+        result.save()
+        if(err) res.json({
+            error:err
+        })
+        else res.json({
+            status:"deleted",
+            _id:req.params.child
+        })
+    })
+    
+})
+app.runPost("/api/addFeature/:id" , async (req,res,next) => {
+    
+    await Feature.findById(req.params.id, (err,result) => {
+        console.log(res)
+        console.log(req.body)
+        result.data.push(req.body)
+        result.save()
+        res.json(result)
+        if (err) res.json({
+            error:err
+        })
+    })
+
+})
+app.runPost("/api/testDatabase",async (req,res) => {
+   
+   
+    console.log(req.body)
+    res.json({
+        message:"ok"
+    })
 
 })
 

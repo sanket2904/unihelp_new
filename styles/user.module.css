@@ -7,6 +7,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-row-gap: 10px;
+    
 }
 .header {
     
@@ -16,7 +18,13 @@
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
     grid-column: 1/-1;
     grid-row: 1/2;
+    border-bottom: 1px solid grey;
     
+}
+@keyframes navAppear {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+   
 }
 .header img {
     grid-column: 11/12;
@@ -84,20 +92,27 @@
     height: 200px;
     background-color: #1f1f47;
     border-radius: 20px;
+    
 }
 .nav {
-    
-    grid-column: 7/12;
+    align-self: center;
+    grid-column: 5/12;
     grid-row: 2/5;
-    background: rgba(0, 0, 0, 0) linear-gradient(209.21deg, rgb(0, 6, 149) 13.57%, rgb(116, 69, 154) 98.38%) repeat scroll 0% 0%;
+    background: #fff;
     z-index: 5;
-    border-radius: 25px;
+    border-radius: 5px;
     display: grid;
+    opacity: 0;
+    height: 140px;
+    width: 230px;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    transform: skewY( skewY(0deg) rotate(0deg) translateY(0px));
-    transition:  transform 500ms cubic-bezier(0.075, 0.82, 0.165, 1);
+    animation-name: navAppear;
+    animation-duration: 0.7s;
+    justify-self: start ;
+    box-shadow: 0 0 0 1px rgb(136 152 170 / 10%), 0 15px 35px 0 rgb(49 49 93 / 10%), 0 5px 15px 0 rgb(0 0 0 / 8%);
 }
+
 .nav .navbar {
     grid-column: 2/12;
     grid-row: 2/12;

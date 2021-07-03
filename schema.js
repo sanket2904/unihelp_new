@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-let url = "mongodb+srv://dbUser:unihelpuk@cluster0.qy3jg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+let url = "mongodb+srv://dbUser:unihelp@cluster0.qy3jg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 mongoose.connect(url,{ useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 mongoose.connection.on("open",() => {
     console.log("connected to database")
@@ -23,8 +23,8 @@ const userSchema = new mongoose.Schema({
 
 
 const itemSchema = new mongoose.Schema({
-    name: String
-
+    name: String,
+    price:Number
 })
 const childSchema = new mongoose.Schema({
     title:String,
@@ -35,9 +35,6 @@ const childSchema = new mongoose.Schema({
 })
 const featureSchema = new mongoose.Schema({
     title:String,
-    myStyle:{
-        background:String
-    },
     imageLink:String,
     data:[childSchema],
     date: Date

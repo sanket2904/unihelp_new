@@ -16,7 +16,7 @@ body::-webkit-scrollbar-track {
 }
 body::-webkit-scrollbar-thumb {
     background-color: #1f1f47;
-    outline: 1px solid slategrey;
+    /* outline: 1px solid slategrey; */
 
 }
 body::-webkit-scrollbar-thumb {
@@ -46,6 +46,11 @@ a {
     position: absolute;
     right: 25px;
     top: 35px;
+}
+input {
+    margin: 15px 0;
+    height: 35px;
+    width: 180px;
 }
 @media only screen and (min-width:480px){
     body {

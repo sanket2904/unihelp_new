@@ -7,7 +7,7 @@ import axios from "axios"
 
 const Loader = dynamic(() => import("../../components/loader"))
 const Top = dynamic(() => import("../../components/top"))
-const Dashboard = dynamic(() => import("../../components/dashboard"))
+
 export default function DashHome () {
     const [err,setErr] = useState(false)
    

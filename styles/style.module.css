@@ -281,6 +281,21 @@
         overflow: hidden scroll;
         display: grid;
     }
+    .cardList::-webkit-scrollbar {
+        width: 10px;
+    }
+    .cardList::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+    .cardList::-webkit-scrollbar-thumb {
+    background-color: #1f1f47;
+    /* outline: 1px solid slategrey; */
+
+    }
+    .cardList::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        border: none;
+    }
     .card1 {
         width: 586px;
         margin: 20px auto;

@@ -5,22 +5,10 @@
       "static/chunks/node_modules_next_dist_client_dev_noop_js.js"
     ]
   },
-  "[id].jsx -> ../components/top": {
-    "id": "./components/top.jsx",
+  "admincontrols.jsx -> ../components/loader": {
+    "id": "./components/loader.jsx",
     "files": [
-      "static/chunks/components_top_jsx.js"
-    ]
-  },
-  "index.jsx -> ../components/founderPage": {
-    "id": "./components/founderPage.jsx",
-    "files": [
-      "static/chunks/components_founderPage_jsx.js"
-    ]
-  },
-  "index.jsx -> ../components/top": {
-    "id": "./components/top.jsx",
-    "files": [
-      "static/chunks/components_top_jsx.js"
+      "static/chunks/components_loader_jsx.js"
     ]
   }
 }

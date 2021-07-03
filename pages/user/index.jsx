@@ -14,20 +14,10 @@ export default function User() {
                 <img src="/api/images/user-circle-regular" alt="" onClick={() => setNav(!nav)} />
             </div>
             {
-                nav && <div className={style.nav}  >
+                nav && <div className={style.nav} style={{opacity:1}} >
+                    
                 <div className={style.navbar}>
-                    <ul>
-                        <li>
-                            <a href="#">Home</a>
-                        </li>
-                        <li>
-                            <a href="#">Products</a>
-                            
-                        </li>
-                        <li>
-                            <a href="#">Login</a>
-                        </li>
-                    </ul>
+                    
                 </div>
             </div>
             }
@@ -79,5 +69,12 @@ function CartSvg({fill}) {
 function ListSvg({fill}) {
     return (
         <svg aria-hidden="true" width="30px" height="30px" focusable="false" data-prefix="fas" data-icon="list-ul" class="svg-inline--fa fa-list-ul fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill={fill} d="M48 48a48 48 0 1 0 48 48 48 48 0 0 0-48-48zm0 160a48 48 0 1 0 48 48 48 48 0 0 0-48-48zm0 160a48 48 0 1 0 48 48 48 48 0 0 0-48-48zm448 16H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-320H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16zm0 160H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z"></path></svg>
+    )
+}
+function Pointer({fill}) {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill={fill} class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+            <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
+        </svg>
     )
 }
