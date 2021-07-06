@@ -1,7 +1,8 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import style from  "../styles/style.module.css"
 import dynamic from "next/dynamic"
 import Image from "next/image"
+import axios from "axios"
 
 const FounderPage = dynamic(() => import("../components/founderPage"))
 const Top = dynamic(() => import("../components/top"))
@@ -9,30 +10,13 @@ export default function Home() {
     useEffect(() => {
         document.title = "Unihelp"
     })
-    let arr = [
-   
-        {
-           title : "Explore Bundles",
-           key:1,
-           mystyle : {
-               background: "linear-gradient(207.03deg, #4BBEFF 0%, #2370DC 100%)"
-           },
-           element: '/api/images/bundles'
-           
-          
-       },
-        {
-           title : "Explore Marketplace",
-           key:2,
-           mystyle: {
-               background:"linear-gradient(206.21deg, #4B5AFF 0%, #216BDA 0.01%, #FF7373 0.02%, #5524B3 95.4%)"
-           },
-           element:'/api/images/market'
-           
-       }
-   
-   
-   ]
+    let [arr,setArr] = useState([])
+    useEffect(() => {
+        let data =  axios.get("/api/addFeature").then(async (response) => {
+            await setArr(response.data)
+
+        })
+    },[])
     const data = [
         {
             title:'Essential Pack',
@@ -109,7 +93,7 @@ export default function Home() {
                     return (
                         <div className={style.card1} key={element.key} style={{background:'#fff'}   }  >
                         
-                            <div className={style.miniCard} style={element.mystyle} >
+                            <div className={style.miniCard} style={element.myStyle} >
                                 <div className={style.content}>
                                     {/* {element.element} */}
                                     <img src={element.element} alt="" />
@@ -121,13 +105,15 @@ export default function Home() {
                                 <h2 style={{padding:'15px 0 '}}>Title</h2>
                                     <a href="#" className={style.cardLink}>
                                         <div className={style.innerContent}>
-                                            {data.map((val) => {
+                                            
+                                            {element.data.map((val) => {
+                                               
                                                 return(
-                                                    <>
-                                                    <div className={style.listSectionLeft}  >
-                                                        <p>{val.key}</p>
+                                                    < >
+                                                    <div className={style.listSectionLeft} >
+                                                        <p>1</p>
                                                     </div>
-                                                    <div className={style.listSectionRight}  >
+                                                        <div className={style.listSectionRight}   >
                                                         <p className={style.sectionTitle}>{val.title}</p>
                                                         <p className={style.sectionDescription}>{val.description}</p>
                                                     </div>

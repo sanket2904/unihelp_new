@@ -3,6 +3,8 @@ let url = "mongodb+srv://dbUser:unihelp@cluster0.qy3jg.mongodb.net/myFirstDataba
 mongoose.connect(url,{ useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 mongoose.connection.on("open",() => {
     console.log("connected to database")
+}).catch((error) => {
+    console.log("error")
 })
 const cartItemSchema = new mongoose.Schema({
     name:String,

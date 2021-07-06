@@ -18,6 +18,15 @@ export default function AdminDash() {
         
 
     })
+    let [init,setInit] = useState([])
+    const fetchedData = async (id) => {
+        const data = axios.get(`/api/addFeature/${id}`).then(response => {
+            setInit(response.data)
+        })
+        
+        
+    }
+    
     let [dataitem, setdataItem] = useState([{
         name:"",
         price:""
@@ -35,10 +44,10 @@ export default function AdminDash() {
     useEffect(() => {
         axios.get("/api/addFeature").then(response => {
             setData(response.data)
-            console.log(response.data)
+            
 
         }).catch(err => {
-            console.err("tumse nai ho payega")
+            console.log("tumse nai ho payega")
         })
     },[])
     
@@ -126,11 +135,21 @@ export default function AdminDash() {
                             data.map((item) => {
                                 
                                 if (!edit) return (
-                                    <div className={style.feature} key={item._id} onClick={() => setEdit(true)} >
+                                    <div className={style.feature} key={item._id} id={item._id} onClick={ async () =>{
+                                        const data = await axios.get(`/api/addFeature/${item._id}`).then(async response => {
+                                            await setInit(response.data)
+                                            await console.log(response.data)
+                                            
+                                        })
+                                        
+                                        setEdit(true)
+                                        
+                                        }} >
                                         <h1 style={{ gridColumn: "1/-1", justifySelf:"center" }} >{item.title}</h1>
                                     </div>
                                 )
                                 else return (
+                                    
                                     <div className={`${style.feature} ${style.gobigger} `} key={item.data._id} style={{gridTemplateColumns:"1fr 1fr 1fr"}}>
                                         <Backsvg fill="#1f1f47" onClick={(e) => {
                                             setEdit(false)
@@ -138,17 +157,24 @@ export default function AdminDash() {
 
                                         }
                                         } />    
+                                        
                                         <div className={style.items} style={{justifySelf:"left",margin:"50px"}}>
                                             {
-                                                item.data.map((data) => {
+                                                init.data.map((data) => {
                                                     
                                                     return (
                                                         
                                                         <div key={data._id}  style={{display:"flex"}} >
-                                                            <h1 style={{backgroundColor:"aliceblue",padding:"20px 40px",margin:"15px 0"}}>{data.title}</h1>
-                                                            {console.log(data)}
+                                                            <h1 style={{backgroundColor:"aliceblue",padding:"20px 40px",margin:"15px 0"}} onClick={ async (e) => {
+                                                               
+                                                                const dataa = await axios.get(`/api/addFeature/${init._id}/${data._id}/items`).then( async (response) => {
+                                                                    await setInit(response.data)
+                                                                    await console.log(response)
+                                                                })
+                                                            }} >{data.title || data.name} </h1>
+                                                            
                                                             <DeleteSvg fill="black" style={{position:"static !important"}} onClick={(e) => {
-                                                                axios.delete(`/api/addFeature/${item._id}/${data._id}`)
+                                                                axios.delete(`/api/addFeature/${init._id}/${data._id}`)
                                                             }} />
                                                         </div>
                                                     )
@@ -181,7 +207,7 @@ export default function AdminDash() {
                                                     imageLink: e.target.value
                                                 })
                                             }} />
-                                            <button style={{ backgroundColor:"#1f1f47",color:"#fff",height:"40px",borderRadius:"25px"}}>Submit</button>
+                                            {/* <button style={{ backgroundColor:"#1f1f47",color:"#fff",height:"40px",borderRadius:"25px"}}>Submit</button> */}
                                         </div>
                                         <div className={style.subItems} style={{gridColumn:"3"}}>
                                             <h1>Add Items</h1>
@@ -212,14 +238,17 @@ export default function AdminDash() {
                                                 setdataItem([...dataitem, {
                                                     
                                                 }])
-                                                console.log(document.querySelector(".itemform"))
+                                                
 
                                             }} />
-                                            <input type="submit" value="Submit" onClick={(e) => {
+                                                <input type="submit" value="Submit" style={{ backgroundColor: "#1f1f47", color: "#fff", height: "40px", borderRadius: "25px" }} onClick={(e) => {
 
                                                 e.preventDefault()
+                                                    console.log(item._id)
                                                 newData["items"] = dataitem 
-                                                    axios.post(`/api/addFeature/${item._id}`,newData).then((response) => console.log(response) )
+
+                                                    axios.post(`/api/addFeature/${init._id}`,newData).then((response) => console.log(response) )
+                                                    
                                             }} />
                                             </form>
                                         </div>

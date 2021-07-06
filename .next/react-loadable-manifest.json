@@ -5,6 +5,12 @@
       "static/chunks/node_modules_next_dist_client_dev_noop_js.js"
     ]
   },
+  "[id].jsx -> ../components/top": {
+    "id": "./components/top.jsx",
+    "files": [
+      "static/chunks/components_top_jsx.js"
+    ]
+  },
   "admincontrols.jsx -> ../components/loader": {
     "id": "./components/loader.jsx",
     "files": [

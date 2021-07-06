@@ -153,6 +153,10 @@ app.runGet("/api/addFeature", async (req,res,next) => {
     const retrivalData = await Feature.find({})
     res.json(retrivalData)
 }) 
+app.runGet("/api/addFeature/:id", async (req,res,next) => {
+    const retrivalData = await Feature.findById(req.params.id)
+    res.json(retrivalData)
+})
 app.delete('/api/addFeature/:id', async (req,res,next) => {
 
     const retrivalData = await Feature.findById(req.params.id)
@@ -163,6 +167,24 @@ app.delete('/api/addFeature/:id', async (req,res,next) => {
         res.json({message:"Deleted Successfully"})
     })
     
+})
+app.runGet("/api/addFeature/:id/:child" , async (req,res) => {
+    await Feature.findById(req.params.id, (err, result) => {
+
+        let newData = result.data.id(req.params.child)
+        res.json({
+            data: newData
+        })
+    })
+})
+app.runGet("/api/addFeature/:id/:child/:toget" , async (req,res) => {
+    await Feature.findById(req.params.id , (err,result) => {
+        
+        let newData = result.data.id(req.params.child)[req.params.toget]
+        res.json({
+            data:newData
+        })
+    })
 })
 app.delete("/api/addFeature/:id/:child", async (req,res,next) => {
         await Feature.findById(req.params.id, (err,result ) => {
