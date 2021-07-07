@@ -48,7 +48,7 @@
     grid-row: 12/-1;
     display: flex;
     justify-content: space-evenly;
-    
+    min-height: 60px;
     align-items: center;
 }
 .footer svg {
@@ -61,6 +61,7 @@
     grid-column: 1/-1;
     grid-row: 2/7;
     overflow-x: scroll;
+    min-height: 300px;
 }
 .card {
     width: 200px;
@@ -69,6 +70,24 @@
     min-width: 200px;
     background-color: #1f1f47;
     border-radius: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr 1fr;
+}
+.card img {
+    grid-row: 1;
+    grid-column: 1;
+    max-width:100%;
+    box-sizing: border-box;
+    padding: 25px 15px;
+}
+.card h1 {
+    text-align: center;
+    grid-row-start: 2;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    
 }
 .section {
     overflow-x: scroll;
@@ -95,9 +114,9 @@
     
 }
 .nav {
-    align-self: center;
-    grid-column: 5/12;
-    grid-row: 2/5;
+    position: absolute;
+    top: 9vh;
+    right: 25px;
     background: #fff;
     z-index: 5;
     border-radius: 5px;
@@ -109,7 +128,7 @@
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     animation-name: navAppear;
     animation-duration: 0.7s;
-    justify-self: start ;
+    
     box-shadow: 0 0 0 1px rgb(136 152 170 / 10%), 0 15px 35px 0 rgb(49 49 93 / 10%), 0 5px 15px 0 rgb(0 0 0 / 8%);
 }
 

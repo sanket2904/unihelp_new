@@ -17,30 +17,7 @@ export default function Home() {
 
         })
     },[])
-    const data = [
-        {
-            title:'Essential Pack',
-            key:1,
-            description:"desc"
-        },{
-            title:'Comforter Pack',
-            key:2,
-            description:"desc"
-        },{
-            title:'Cleaning Pack',
-            key:3,
-            description:"desc"
-        },{
-            title:'Stationary Pack',
-            key:4,
-            description:"desc"
-        },{
-            title:'Bedding and Linen Pack',
-            key:5,
-            description:"desc"
-        }
-
-    ]
+    
     const founderData = [
         {
             name: 'Raj Garg',

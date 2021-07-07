@@ -1,11 +1,19 @@
-import React from "react"
+import React, { useEffect } from "react"
 import dynamic from "next/dynamic"
 import {useState} from "react"
 import axios from "axios"
 import style from "../../styles/user.module.css"
 
+
 export default function User() {
     const [nav,setNav] = useState(false)
+    const [arr,setArr] = useState([])
+    useEffect(() => {
+        let data = axios.get("/api/addFeature").then(async(response) => {
+            await setArr(response.data)
+            await console.log(response.data)
+        })
+    },[])
 
     return(
         <div className={style.user}>
@@ -23,18 +31,16 @@ export default function User() {
             }
             <div className={style.mainSection}>
                 <div className={style.section}>
-                    <div className={style.card}>
-
-                    </div>
-                    <div className={style.card}>
-                        
-                    </div>
-                    <div className={style.card}>
-                        
-                    </div>
-                    <div className={style.card}>
-                        
-                    </div>
+                    {
+                        arr.map(items => {
+                            return (
+                                <div className={style.card} style={items.myStyle}>
+                                    <img src={items.element} alt="" srcset="" />
+                                    <h1>{items.title}</h1>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
             <div className={style.centerCard}>
