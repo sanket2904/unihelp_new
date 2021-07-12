@@ -1,8 +1,51 @@
 {
+  "../components/admincontrols.jsx -> ./loader": {
+    "id": "./components/loader.jsx",
+    "files": [
+      "static/chunks/components_loader_jsx.js"
+    ]
+  },
   "../node_modules/next/dist/client/next-dev.js -> ./dev/noop": {
     "id": "./node_modules/next/dist/client/dev/noop.js",
     "files": [
       "static/chunks/node_modules_next_dist_client_dev_noop_js.js"
+    ]
+  },
+  "[id].jsx -> ../components/top": {
+    "id": "./components/top.jsx",
+    "files": [
+      "static/chunks/components_top_jsx.js"
+    ]
+  },
+  "admin/index.jsx -> ../../components/admincontrols": {
+    "id": "./components/admincontrols.jsx",
+    "files": [
+      "static/chunks/vendors-node_modules_babel_runtime_helpers_esm_asyncToGenerator_js-node_modules_babel_runtime-32d21a.js",
+      "static/chunks/components_admincontrols_jsx.js"
+    ]
+  },
+  "admin/index.jsx -> ../../components/loader": {
+    "id": "./components/loader.jsx",
+    "files": [
+      "static/chunks/components_loader_jsx.js"
+    ]
+  },
+  "admin/index.jsx -> ../../components/top": {
+    "id": "./components/top.jsx",
+    "files": [
+      "static/chunks/components_top_jsx.js"
+    ]
+  },
+  "index.jsx -> ../components/founderPage": {
+    "id": "./components/founderPage.jsx",
+    "files": [
+      "static/chunks/components_founderPage_jsx.js"
+    ]
+  },
+  "index.jsx -> ../components/top": {
+    "id": "./components/top.jsx",
+    "files": [
+      "static/chunks/components_top_jsx.js"
     ]
   }
 }

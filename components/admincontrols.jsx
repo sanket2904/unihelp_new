@@ -6,7 +6,7 @@ import axios from "axios"
 
 
 
-const Loader = dynamic(() => import("../components/loader"))
+const Loader = dynamic(() => import("./loader"))
 export default function AdminDash() {
     
     const [toggle,setToggle] = useState(false)
@@ -138,7 +138,7 @@ export default function AdminDash() {
                                     <div className={style.feature} key={item._id} id={item._id} onClick={ async () =>{
                                         const data = await axios.get(`/api/addFeature/${item._id}`).then(async response => {
                                             await setInit(response.data)
-                                            await console.log(response.data)
+                                            
                                             
                                         })
                                         
@@ -280,7 +280,11 @@ export default function AdminDash() {
                                         imgLink:e.target.value
                                     }))} />
                                     <button type="submit" onClick={(e) => {
-                                        axios.post("/api/addFeature",add).then(res => {
+                                        axios.post("/api/addFeature", add, {
+                                            // headers: {
+                                            //     Authorization: `Bearer ${window.session.token}`
+                                            // }
+                                        },).then(res => {
                                             if(res.data.message === "Entry Added") setHandler(true)
                                         } )
                                     }}> Submit</button>

@@ -104,6 +104,18 @@ export default function Home() {
                         </div>
                     )
                 }) }
+                    <div className={style.card1}>
+                        <div className={style.miniCard}>
+                            <div className={style.content} style={{ background:"linear-gradient(209.21deg, rgb(64, 141, 213) 13.57%, rgb(99, 11, 140) 98.38%)",borderRadius:"25px"}}>
+                               
+                                <img src="/api/images/Forms" />
+                                <h3>Book a free consultation</h3>
+                            </div>
+                        </div>
+                        <div className={style.cardList}>
+
+                        </div>
+                    </div>
                 </div>
                 
         

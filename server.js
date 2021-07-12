@@ -44,14 +44,52 @@ function Hulkenberg(options) {
 
 const User = require("./schema.js").User
 const Feature = require("./schema.js").Features
+const {Session} = require("./schema.js")
 const argon2 = require("argon2")
 const Features = require("./schema.js").Features
 const ReactDOMServer = require("react-dom/server")
-
+const jwt = require("jsonwebtoken")
+const nanoid = require("nanoid")
+const generate = (data) => {
+    return data + nanoid.customAlphabet("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10)()
+}
 const app = new Hulkenberg({
     message:"working",
     port:1337
 })
+
+const tokenAuth = async (request) => {
+    let promise = new Promise((resolve,reject) => {
+        try {
+            
+            const auth =  request.get("Authorization")
+            if (!auth) { reject("auth is undefined") }
+            const token =  auth.substring(7)
+            const verification =  jwt.verify(token, process.env.SECRET)
+            
+                if (!token || !verification.id || !auth) {
+                    reject({
+                        err: "wrong token"
+                    })
+                }
+                resolve(verification)
+            
+
+        } catch (error) {
+            if(error) {
+                reject(error)
+            }
+                
+        }
+        
+        
+
+
+    })
+    
+    
+    return promise
+}
 
 app.runGet("/api", (req,res) => {
     setTimeout(() => {
@@ -69,19 +107,32 @@ app.runGet("/api/images/:id",(req,res) => {
 
 app.runPost("/api/signin", async (req,res) => {
     let data = req.body
-    let fetchingData = null
-    await User.findOne({email:data.email},(err,res) => {
-        fetchingData = res
-    })
+    let fetchingData = await User.findOne({email:data.email})
 
-   console.log(fetchingData)
+    
+
+   
+    let token = jwt.sign({email:fetchingData.email,id:fetchingData._id},process.env.SECRET)
     
     try {
+        
         if(await argon2.verify(fetchingData.password,req.body.password) ){
-            res.json({
+            
+            let session = new Session({
+                
+                name:fetchingData.firstName,
+                email:fetchingData.email,
+                date:new Date()
+            })
+            await session.save().catch(err => res.json({
+                err:err
+            }))
+            await res.json({
+                token:token,
                 verification:true,
                 email:fetchingData.email,
-                _id:fetchingData._id
+                _id:fetchingData._id,
+                session:[session]
             })
         }
         else {
@@ -131,8 +182,21 @@ app.runPost("/api/addUser",async (req,res) => {
     
 } )
 app.runPost("/api/addFeature", async (req,res,next) => {
+    
     let data = req.body
-    console.log(req.body)
+    let response
+    try {
+         response = await tokenAuth(req)
+    } catch (error) {
+        console.log(error)
+    }
+    
+    if(!response) {
+        res.json({
+            err:"problem"
+        })
+    }
+    
     const feature = new Features({
         title:data.mainTitle || data.title,
         imageLink:data.imageLink,

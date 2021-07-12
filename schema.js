@@ -6,6 +6,8 @@ mongoose.connection.on("open",() => {
 }).catch((error) => {
     console.log("error")
 })
+
+
 const cartItemSchema = new mongoose.Schema({
     name:String,
     price:Number,
@@ -41,8 +43,14 @@ const featureSchema = new mongoose.Schema({
     data:[childSchema],
     date: Date
 })
-
+const session = new mongoose.Schema({
+    
+    name:String,
+    email:String,
+    date:Date
+})
 const Features = mongoose.model("Features",featureSchema)
 const User = mongoose.model('User',userSchema)
+const Session = mongoose.model("Session",session)
 
-module.exports =  {User , Features }
+module.exports =  {User , Features,Session }

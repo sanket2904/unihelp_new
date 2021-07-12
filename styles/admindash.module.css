@@ -315,6 +315,7 @@
 .items {
     justify-self: center;
     align-self: center;
+    overflow-y: scroll;
 }
 .items svg {
     position: static !important;
@@ -328,6 +329,7 @@
     align-self: center;
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
 }
 .subItems svg {
     position: static!important;

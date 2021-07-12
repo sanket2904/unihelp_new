@@ -5,9 +5,10 @@ import {useState} from "react"
 import axios from "axios"
 
 
+
 const Loader = dynamic(() => import("../../components/loader"))
 const Top = dynamic(() => import("../../components/top"))
-
+const Dashboard = dynamic(() => import("../../components/admincontrols"))
 export default function DashHome () {
     const [err,setErr] = useState(false)
    
@@ -31,7 +32,10 @@ export default function DashHome () {
         password:""
     })
     const initialCheck = () => {
-        if(window.localStorage.user) {
+        if(!window.session) {
+            window.session = JSON.parse(window.localStorage.getItem("session"))
+        }
+        if(window.session) {
             setMain({
                 ...main,
                 user:true,
@@ -109,13 +113,11 @@ export default function DashHome () {
     }
     
     function Send() {
-        setLoader(true)
+        
         axios.post("/api/addUser",state).then(res => {
             console.log(res)
             if(res.status === 200) {
-                setTimeout(() => {
-                    setLoader(false)
-                },300)
+                
             }
         })
     }
@@ -131,11 +133,13 @@ export default function DashHome () {
         axios.post("/api/signin",signState).then(res => {
             
             if(res.data.verification) {
-                let user = {
-                    _id:res.data._id
-                    
-                }   
-                window.localStorage.setItem("user",JSON.stringify(user))
+                let session = {
+                    token:res.data.token,
+                    session:res.data.session
+                }
+                window.session = session
+                window.localStorage.setItem("session",JSON.stringify(session))
+
                 
                 // setTimeout(() => {
                     
