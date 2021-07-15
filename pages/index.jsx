@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react"
 import style from  "../styles/style.module.css"
 import dynamic from "next/dynamic"
-import Image from "next/image"
+import Link from 'next/link'
 import axios from "axios"
+
 
 const FounderPage = dynamic(() => import("../components/founderPage"))
 const Top = dynamic(() => import("../components/top"))
@@ -11,13 +12,19 @@ export default function Home() {
         document.title = "Unihelp"
     })
     let [arr,setArr] = useState([])
+    let [nav,setNav] = useState(false)
     useEffect(() => {
         let data =  axios.get("/api/addFeature").then(async (response) => {
             await setArr(response.data)
 
         })
     },[])
-    
+    let [form,setForm] = useState({
+        name:"",
+        email:"",
+        number:"",
+        country:""
+    })
     const founderData = [
         {
             name: 'Raj Garg',
@@ -40,8 +47,13 @@ export default function Home() {
     
     return(
         <>
-        <Top />
-        
+        <Top nav={nav} setNav={setNav} />
+        {nav && <div className={style.navbar}>
+            <h1>
+                Sign in
+            </h1>
+            
+        </div>}
         <div className={style.contentFirst}>
             
             
@@ -104,16 +116,29 @@ export default function Home() {
                         </div>
                     )
                 }) }
-                    <div className={style.card1}>
-                        <div className={style.miniCard}>
-                            <div className={style.content} style={{ background:"linear-gradient(209.21deg, rgb(64, 141, 213) 13.57%, rgb(99, 11, 140) 98.38%)",borderRadius:"25px"}}>
-                               
-                                <img src="/api/images/Forms" />
-                                <h3>Book a free consultation</h3>
-                            </div>
-                        </div>
-                        <div className={style.cardList}>
+                    <div className={style.card1} style={{background:"#fff"}}>
+                        <Link href="/contact">
+                            <div className={style.miniCard} style={{ background: "linear-gradient(209.21deg, rgb(64, 141, 213) 13.57%, rgb(99, 11, 140) 98.38%)", borderRadius: "25px" }} >
+                                <div className={style.content}  >
 
+                                    <img src="/api/images/Forms" />
+                                    <h3>Book a free consultation</h3>
+                                </div>
+                            </div>
+                        </Link>
+                        
+                        <div className={style.cardList}>
+                            <form action="" method="post" style={{padding:"20px",textAlign:"center"}}>
+                                <input type="text" placeholder="Name*" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}  />
+                                <input type="text" placeholder="Email*" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}  />
+                                <input type="text" placeholder="Phone Number*" value={form.number} onChange={(e) => setForm({ ...form, number: e.target.value })}  />
+                                <input type="text" placeholder="Country*" value={form.country} onChange={(e) => setForm({...form,country:e.target.value})} />
+                                <input type="button" value="Submit" className={style.button} style={{maxWidth:"200px"}} onSubmit={e => {
+                                    axios.post("/api/sendmail",form).then(res => console.log(res) )
+                                }} onClick={e => {
+                                    axios.post("/api/sendmail", form).then(res => console.log(res))
+                                }}  />
+                            </form >
                         </div>
                     </div>
                 </div>

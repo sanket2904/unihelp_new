@@ -281,9 +281,9 @@ export default function AdminDash() {
                                     }))} />
                                     <button type="submit" onClick={(e) => {
                                         axios.post("/api/addFeature", add, {
-                                            // headers: {
-                                            //     Authorization: `Bearer ${window.session.token}`
-                                            // }
+                                            headers: {
+                                                Authorization: `Bearer ${window.session.token}`
+                                            }
                                         },).then(res => {
                                             if(res.data.message === "Entry Added") setHandler(true)
                                         } )

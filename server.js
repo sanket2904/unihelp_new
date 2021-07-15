@@ -47,16 +47,19 @@ const Feature = require("./schema.js").Features
 const {Session} = require("./schema.js")
 const argon2 = require("argon2")
 const Features = require("./schema.js").Features
-const ReactDOMServer = require("react-dom/server")
+
 const jwt = require("jsonwebtoken")
+const sgMail = require("@sendgrid/mail")
 const nanoid = require("nanoid")
 const generate = (data) => {
-    return data + nanoid.customAlphabet("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10)()
+    return data + nanoid.customAlphabet("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10)
 }
 const app = new Hulkenberg({
     message:"working",
     port:1337
 })
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 const tokenAuth = async (request) => {
     let promise = new Promise((resolve,reject) => {
@@ -98,13 +101,76 @@ app.runGet("/api", (req,res) => {
     
 
 })
-
+app.runPost("/api/sendmail",(req,res) => {
+    const data = req.body 
+    console.log(data)
+    const msg = {
+        to:"rj1998.rg@gmail.com.",
+        from:"support@unihelp.uk",
+        subject:"Unihelp Enquiry",
+        text:`You have a new enquiry from 
+        name:${data.name},
+        email:${data.email},
+        number:${data.number},
+        country:${data.country}`
+    }
+    sgMail.send(msg).then((res) => console.log(res)).catch((error) => console.log(error))
+})
 app.runGet("/api/images/:id",(req,res) => {
     // res.json(req.params.id)
     res.sendFile(__dirname +`/${req.params.id}.svg`)
 
 })
+app.runPost("/api/tokenauth", async (req,res) => {
+    let response
+    let data = req.body[0] || req.body
+    console.log(data)
+    try {
+        response = await tokenAuth(req)
+    } catch (error) {
+        console.log(error)
+    }
+    await console.log(response)
+    if (!response) {
+        res.json({
+            err: "problem"
+        })
+    }
+    else {
+        let deleteData
+        await Session.findById(data._id, (err, result) => {
+            
+            deleteData =  result
+            if(result) {
+                result.remove()
+                result.save()
+            }
+            
+            if(err) {
+                res.json({
+                    err:"problem"
+                })
+            }
+            
 
+        })
+        
+            let session = new Session({
+                name: deleteData.firstName,
+                email: deleteData.email,
+                date: new Date()
+            })
+            session.save().catch((err) => console.log(err))
+            res.status(200).json({
+                token: req.get("Authorization").substring(7),
+                session: session
+            })
+            
+        
+        
+    }
+
+})
 app.runPost("/api/signin", async (req,res) => {
     let data = req.body
     let fetchingData = await User.findOne({email:data.email})

@@ -1,36 +1,5 @@
-.h1 {
-    color: #fff;
-    font-size: 12vw;
-    font-weight: 900;
-    margin: 0 auto;
-    text-align: center;
-    
-}
-.form {
-    /* margin-top: 5vh; */
-    margin: 5vh auto;
-    width: 70%;
-    background-color: #fff;
-    padding: 5%;
-    border-radius: 25px;
-    box-sizing: border-box;
-    max-width: 350px;
-    min-width: 300px;
-    box-shadow: 0px 6px 18px 1px #1f1f47
-}
-.form label {
-    margin: 25px 0;
-}
-.form input {
-    margin: 25px 0;
-}
-
-@media only screen and (min-width:768px) {
-    .h1 {
-        font-size: 6vw;
-    }
-    .form {
-        width: 100%;
-        max-width: 400px;
-    }
+.contact {
+    height: 60vh;
+    width: 100vw;
+    background-color: #f2f6ff;
 }

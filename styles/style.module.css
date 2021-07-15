@@ -10,6 +10,14 @@
 .cardList {
     display: none
 }
+.navbar  {
+    height: 150px;
+    width:250px;
+    position: absolute;
+    top: 60px;
+    right: 25px;
+    background-color: #fff;
+}
 .footer {
     height: 20vh;
     width: 100vw;
