@@ -65,14 +65,25 @@ export default function DashHome () {
 
     }, [])
     useEffect(() => {
+        
         if (window.localStorage.session) {
-            console.log("doing the task")
-            console.log(window.session.session)
+            if(window.session.err) {
+                console.log("run")
+                setMain({
+                    ...main,
+                    up: false,
+                    signin: true,
+                    signup: false,
+                    loader: false,
+
+                })
+            }
             axios.post("/api/tokenauth", window.session.session, {
                 headers: {
                     Authorization: `Bearer ${window.session.token}`
                 }
             }).then(res => {
+                
                 if (res.status === 200) {
                     window.localStorage.session = JSON.stringify(res.data)
                     window.session = JSON.parse(window.localStorage.session)

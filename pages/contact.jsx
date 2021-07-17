@@ -14,7 +14,9 @@ export default function Contact() {
             <Logo fill="#1f1f47" />
         </div>
         <div className={style.contact}>
+            
             <form action="" method="post" style={{ padding: "20px", textAlign: "center" }}>
+                    <h1>Contact Us</h1>
                 <input type="text" placeholder="Name*" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
                 <input type="text" placeholder="Email*" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
                 <input type="text" placeholder="Phone Number*" value={form.number} onChange={(e) => setForm({ ...form, number: e.target.value })} />

@@ -3,3 +3,27 @@
     width: 100vw;
     background-color: #f2f6ff;
 }
+.contact form {
+    padding: 50px 20px !important;
+    text-align: center;
+    background-color: #fff;
+    margin: 0 30px;
+    border-radius: 25px;
+}
+.contact form h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 15px 0;
+}
+.contact form input[type="button"] {
+    border-radius: 15px;
+    border: none;
+    color: white;
+    background-color: #1f1f47;
+    width: 65%;
+}
+.contact form input {
+    border: 1px solid #1f1f47;
+border-radius: 25px;
+padding-left: 20px;
+}

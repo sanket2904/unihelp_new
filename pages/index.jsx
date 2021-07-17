@@ -78,7 +78,8 @@ export default function Home() {
             <p>We cover all the bases that will spell out the Uni life that you have always wanted.
                 Say goodbye to the hassles of packing the essentials, from bedding to stationery to food, everything you need to kickstart a new phase of your life away from home, we got it all under one roof!</p>
                 <div className={style.card}>
-                {arr.map( (element) => {
+                {arr.map( (element,key) => {
+                    
                     return (
                         <div className={style.card1} key={element.key} style={{background:'#fff'}   }  >
                         
@@ -95,12 +96,12 @@ export default function Home() {
                                     <a href="#" className={style.cardLink}>
                                         <div className={style.innerContent}>
                                             
-                                            {element.data.map((val) => {
+                                            {element.data.map((val,key) => {
                                                
                                                 return(
                                                     < >
                                                     <div className={style.listSectionLeft} >
-                                                        <p>1</p>
+                                                        <p>{key + 1}</p>
                                                     </div>
                                                         <div className={style.listSectionRight}   >
                                                         <p className={style.sectionTitle}>{val.title}</p>

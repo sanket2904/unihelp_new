@@ -132,45 +132,65 @@ app.runPost("/api/tokenauth", async (req,res) => {
     }
     await console.log(response)
     if (!response) {
-        res.json({
+        res.status(403).json({
             err: "problem"
         })
     }
     else {
-        let deleteData
-        await Session.findById(data._id, (err, result) => {
-            
-            deleteData =  result
-            if(result) {
-                result.remove()
-                result.save()
-            }
-            
-            if(err) {
-                res.json({
-                    err:"problem"
-                })
-            }
-            
+        try {
+            let deleteData = await Session.findById(data._id)
+            await Session.deleteOne({_id:data._id})
 
-        })
-        
             let session = new Session({
                 name: deleteData.firstName,
                 email: deleteData.email,
                 date: new Date()
             })
-            session.save().catch((err) => console.log(err))
-            res.status(200).json({
+            await session.save().catch((err) => console.log(err))
+            await res.status(200).json({
                 token: req.get("Authorization").substring(7),
                 session: session
             })
+
+        } catch (error) {
+            res.json({
+                err:error
+            })
+        }
+        
+        
+        
             
         
         
     }
 
 })
+app.runGet("/api/user/:email",async (req,res) => {
+    
+    let data = req.params.email
+    console.log(data)
+    try {
+       
+        
+        let fetchdata = await User.findOne({ email: data })
+        if(await fetchdata) {
+            res.json({
+                firstName: await fetchdata.firstName,
+                lastName: await fetchdata.lastName,
+                email: await fetchdata.email
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        res.json({
+            err:error
+        })
+        
+    }
+    
+   
+} )
 app.runPost("/api/signin", async (req,res) => {
     let data = req.body
     let fetchingData = await User.findOne({email:data.email})

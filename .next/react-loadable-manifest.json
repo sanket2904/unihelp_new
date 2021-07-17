@@ -29,5 +29,17 @@
     "files": [
       "static/chunks/components_top_jsx.js"
     ]
+  },
+  "index.jsx -> ../components/founderPage": {
+    "id": "./components/founderPage.jsx",
+    "files": [
+      "static/chunks/components_founderPage_jsx.js"
+    ]
+  },
+  "index.jsx -> ../components/top": {
+    "id": "./components/top.jsx",
+    "files": [
+      "static/chunks/components_top_jsx.js"
+    ]
   }
 }

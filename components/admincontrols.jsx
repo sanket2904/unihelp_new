@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import style from "../styles/admindash.module.css"
 import dynamic from "next/dynamic"
-import $, { data } from "jquery"
+import $ from "jquery"
 import axios from "axios"
 
 
@@ -19,14 +19,6 @@ export default function AdminDash() {
 
     })
     let [init,setInit] = useState([])
-    const fetchedData = async (id) => {
-        const data = axios.get(`/api/addFeature/${id}`).then(response => {
-            setInit(response.data)
-        })
-        
-        
-    }
-    
     let [dataitem, setdataItem] = useState([{
         name:"",
         price:""
@@ -41,8 +33,18 @@ export default function AdminDash() {
     
     let [edit,setEdit] = useState(false)
     let [data,setData] = useState([])
+    let [fdata,setFdata] = useState({
+        firstName:"",
+        lastName:"",
+        email:""
+    })
+    
     useEffect(() => {
+        axios.get(`/api/user/${JSON.parse(window.localStorage.session)}`).then((res) => {
+            console.log(res)
+        })
         axios.get("/api/addFeature").then(response => {
+            console.log(response)
             setData(response.data)
             
 
@@ -90,7 +92,10 @@ export default function AdminDash() {
         <div className={style.admindash}>
             {
                 nav && <div className={style.usernav} >
-
+                    <button onClick={() => {
+                        delete window.localStorage.session
+                        location.reload()
+                    }}> Signout</button>
                 </div>
             }
             <div className={style.nav}>
@@ -304,12 +309,12 @@ export default function AdminDash() {
                 </div>
             </div>
             <div className={style.admininfo}>
-                <Signout fill="#1f1f47" />
+                <Signout fill="#1f1f47" nav={nav} setNav={setNav} />
                 <div className={style.photo}>
 
                 </div>
-                <h1>Raj Agarwal</h1>
-                <p>agarwalsanket29@gmail.com</p>
+                <h1>{`${fdata.firstName || null} ${fdata.lastName || null}`}</h1>
+                <p>{fdata.email || null}</p>
                 <div className={style.infosection}>
                     <div></div>
                     <div></div>
@@ -322,7 +327,16 @@ export default function AdminDash() {
         </div>
     )
     else if (!toggle) return(
+        
         <div className={style.admindash}>
+            {
+                nav && <div className={style.usernav} >
+                     <button onClick={() => {
+                        delete window.localStorage.session
+                        location.reload()
+                     }}> Signout</button>
+                </div>
+            }
             <div className={style.nav}>
                 <Logo />
                 <div className={style.options} >
@@ -349,7 +363,7 @@ export default function AdminDash() {
             </div>
             <div className={style.center}>
                <div className={style.textdata}>
-                   <h1>Hello,Raj</h1>
+                   <h1>Hello,{fdata.firstName || null}</h1>
                    <p>Welcome back!</p>
                </div>
                <div className={style.analytics}>
@@ -366,12 +380,12 @@ export default function AdminDash() {
             </div>
             
             <div className={style.admininfo}>
-                <Signout fill="#1f1f47" />
+                <Signout fill="#1f1f47" nav={nav} setNav={setNav} />
                 <div className={style.photo}>
 
                 </div>
-                <h1>Raj Agarwal</h1>
-                <p>agarwalsanket29@gmail.com</p>
+                <h1>{`${fdata.firstName || null} ${fdata.lastName || null}`}</h1>
+                <p>{fdata.email || null}</p>
                 <div className={style.infosection}>
                     <div></div>
                     <div></div>
@@ -415,11 +429,11 @@ function SettingIcon({fill}) {
         </svg>
     )
 }
-function Signout({fill}){
+function Signout({fill,nav,setNav}){
     
     return (
         
-        <svg onClick={() => data.setNav(!nav)} aria-hidden="true" focusable="false" width="30" height="30" data-prefix="far" data-icon="user-circle" className="svg-inline--fa fa-user-circle fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill={fill} d="M248 104c-53 0-96 43-96 96s43 96 96 96 96-43 96-96-43-96-96-96zm0 144c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-240C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-49.7 0-95.1-18.3-130.1-48.4 14.9-23 40.4-38.6 69.6-39.5 20.8 6.4 40.6 9.6 60.5 9.6s39.7-3.1 60.5-9.6c29.2 1 54.7 16.5 69.6 39.5-35 30.1-80.4 48.4-130.1 48.4zm162.7-84.1c-24.4-31.4-62.1-51.9-105.1-51.9-10.2 0-26 9.6-57.6 9.6-31.5 0-47.4-9.6-57.6-9.6-42.9 0-80.6 20.5-105.1 51.9C61.9 339.2 48 299.2 48 256c0-110.3 89.7-200 200-200s200 89.7 200 200c0 43.2-13.9 83.2-37.3 115.9z"></path></svg>
+        <svg onClick={() => setNav(!nav)} aria-hidden="true" focusable="false" width="30" height="30" data-prefix="far" data-icon="user-circle" className="svg-inline--fa fa-user-circle fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill={fill} d="M248 104c-53 0-96 43-96 96s43 96 96 96 96-43 96-96-43-96-96-96zm0 144c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-240C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-49.7 0-95.1-18.3-130.1-48.4 14.9-23 40.4-38.6 69.6-39.5 20.8 6.4 40.6 9.6 60.5 9.6s39.7-3.1 60.5-9.6c29.2 1 54.7 16.5 69.6 39.5-35 30.1-80.4 48.4-130.1 48.4zm162.7-84.1c-24.4-31.4-62.1-51.9-105.1-51.9-10.2 0-26 9.6-57.6 9.6-31.5 0-47.4-9.6-57.6-9.6-42.9 0-80.6 20.5-105.1 51.9C61.9 339.2 48 299.2 48 256c0-110.3 89.7-200 200-200s200 89.7 200 200c0 43.2-13.9 83.2-37.3 115.9z"></path></svg>
     )
 }
 function PlusSvg({fill,onClick}) {
