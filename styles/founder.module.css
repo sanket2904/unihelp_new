@@ -48,8 +48,11 @@
     grid-template-rows: 15px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 15px;
     background: rgba(0, 0, 0, 0) linear-gradient(209.19deg, rgb(132, 79, 252) 13.57%, rgb(73, 30, 184) 98.35%) repeat scroll 0% 0%;
     border-radius: 10px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    transition: all 300ms ease;
     margin: 25px 0;
 }
+
 .founderPageCard h3 {
      grid-column: 2/3;
      grid-row: 6/7;

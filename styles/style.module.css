@@ -70,6 +70,10 @@
     /* margin: 15px 15px; */
     max-width: 250px;
     padding: 15px;
+    transition: all 300ms ease;
+}
+.miniCard:hover {
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 .content {
     display: grid;

@@ -105,7 +105,7 @@ app.runPost("/api/sendmail",(req,res) => {
     const data = req.body 
     console.log(data)
     const msg = {
-        to:"rj1998.rg@gmail.com.",
+        to:"rj1998.rg@gmail.com",
         from:"support@unihelp.uk",
         subject:"Unihelp Enquiry",
         text:`You have a new enquiry from 
@@ -114,7 +114,15 @@ app.runPost("/api/sendmail",(req,res) => {
         number:${data.number},
         country:${data.country}`
     }
-    sgMail.send(msg).then((res) => console.log(res)).catch((error) => console.log(error))
+    sgMail.send(msg).then((ress) => res.status(200).json({
+        data:ress
+    })).catch((error) => {
+        res.status(404).json({
+            err:error
+        })
+    } )
+
+    
 })
 app.runGet("/api/images/:id",(req,res) => {
     // res.json(req.params.id)

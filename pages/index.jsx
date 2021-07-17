@@ -11,6 +11,7 @@ export default function Home() {
     useEffect(() => {
         document.title = "Unihelp"
     })
+    let [contact,setContact] = useState(true)
     let [arr,setArr] = useState([])
     let [nav,setNav] = useState(false)
     useEffect(() => {
@@ -124,11 +125,18 @@ export default function Home() {
 
                                     <img src="/api/images/Forms" />
                                     <h3>Book a free consultation</h3>
+
                                 </div>
                             </div>
                         </Link>
                         
-                        <div className={style.cardList}>
+                        {
+                            !contact && <div className={style.cardList}>
+                                <h1>Thank you We will contact you as soon as possible</h1>
+                            </div>
+                        }
+
+                        { contact && <div className={style.cardList}>
                             <form action="" method="post" style={{padding:"20px",textAlign:"center"}}>
                                 <input type="text" placeholder="Name*" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}  />
                                 <input type="text" placeholder="Email*" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}  />
@@ -137,10 +145,15 @@ export default function Home() {
                                 <input type="button" value="Submit" className={style.button} style={{maxWidth:"200px"}} onSubmit={e => {
                                     axios.post("/api/sendmail",form).then(res => console.log(res) )
                                 }} onClick={e => {
-                                    axios.post("/api/sendmail", form).then(res => console.log(res))
+                                    axios.post("/api/sendmail", form).then(res => {
+                                        if(res.status === 200) {
+                                            setContact(false)
+                                        }
+
+                                    } )
                                 }}  />
                             </form >
-                        </div>
+                        </div>}
                     </div>
                 </div>
                 

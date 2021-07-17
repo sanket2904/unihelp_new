@@ -1,7 +1,13 @@
 import style from "./../styles/contact.module.css"
 import { useEffect, useState } from "react"
+import $ from "jquery"
+import axios from "axios"
 export default function Contact() {
-    
+    useEffect(() => {
+        $("body").css("backgroundSize", "0")
+
+    }, [])
+    let [contact,setContact] = useState(true) 
     let [form, setForm] = useState({
         name: "",
         email: "",
@@ -13,10 +19,12 @@ export default function Contact() {
         <div className={style.top} style={{ backgroundColor: "#f2f6ff", boxSizing: "border-box" }}>
             <Logo fill="#1f1f47" />
         </div>
+        
         <div className={style.contact}>
             
             <form action="" method="post" style={{ padding: "20px", textAlign: "center" }}>
-                    <h1>Contact Us</h1>
+                {contact && <>
+                <h1>Contact Us</h1>
                 <input type="text" placeholder="Name*" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
                 <input type="text" placeholder="Email*" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
                 <input type="text" placeholder="Phone Number*" value={form.number} onChange={(e) => setForm({ ...form, number: e.target.value })} />
@@ -24,8 +32,18 @@ export default function Contact() {
                 <input type="button" value="Submit" className={style.button} style={{ maxWidth: "200px" }} onSubmit={e => {
                     axios.post("/api/sendmail", form).then(res => console.log(res))
                 }} onClick={e => {
-                    axios.post("/api/sendmail", form).then(res => console.log(res))
+                    axios.post("/api/sendmail", form).then(res => {
+                        if(res.status === 200) {
+                            setContact(false)
+                        }
+                    })
                 }} />
+                </>}
+                    {
+                        !contact &&
+                        <h1>Thank you We will contact you as soon as possible</h1>
+
+                    }
             </form >
         </div>
         </>
